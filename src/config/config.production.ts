@@ -11,7 +11,7 @@ const config: Config = {
     database: 'fs_exam',
   },
   serverPort: 5000,
-  googleCallBackUrl: 'http://localhost:3000/oauth2callback',
+  googleCallBackUrl: '',
   verificationLink: 'http://localhost:3001/#/checkemail?token=',
   corsUrl: ['http://localhost:3001'],
   swaggerUrl: 'http://localhost:5000/api-docs',
