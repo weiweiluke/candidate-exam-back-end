@@ -109,7 +109,6 @@ export const signInUser = async (req: SignInReq, res: Response) => {
 
   try {
     const { token, user } = await signInUserService(email, password);
-
     const responseBody = ResponseTypeBuilder<SignInRes>()
       .SUCCESS(ResponseEnum.SigninSuccess)
       .setData({ accessToken: token, refreshToken: token, user: user })
@@ -120,7 +119,10 @@ export const signInUser = async (req: SignInReq, res: Response) => {
     return res
       .status(200)
       .json(
-        ResponseTypeBuilder<null>().ERROR(ResponseEnum.OperationFailed).build()
+        ResponseTypeBuilder<null>()
+          .ERROR(ResponseEnum.OperationFailed)
+          .setMessage(error.message)
+          .build()
       );
   }
 };
@@ -158,6 +160,15 @@ export const modifyPassword = async (req: Request, res: Response) => {
       .json(
         ResponseTypeBuilder<null>()
           .ERROR(ResponseEnum.UserNotFoundError)
+          .build()
+      );
+  }
+  if (user.isGoogleRegistered) {
+    return res
+      .status(200)
+      .json(
+        ResponseTypeBuilder<null>()
+          .ERROR(ResponseEnum.GoogleUserCannotChangePasswordError)
           .build()
       );
   }

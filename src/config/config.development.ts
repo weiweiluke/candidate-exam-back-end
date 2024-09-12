@@ -13,7 +13,7 @@ const config: Config = {
   serverPort: 5000,
   googleCallBackUrl: 'http://localhost:3001/oauth2callback',
   verificationLink: 'http://localhost:3001/#/checkemail?token=',
-  swaggerUrl: 'http://localhost:5000/api-docs',
+  swaggerUrl: 'http://localhost:5000',
   corsUrl: ['http://localhost:3001', 'http://localhost:5000'],
 };
 

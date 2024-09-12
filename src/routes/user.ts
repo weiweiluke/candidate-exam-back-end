@@ -31,21 +31,7 @@ const router = express.Router();
  *                password: 123!@#qweQWE
  *     responses:
  *       200:
- *         description: User registered successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                  success:
- *                    type: string
- *                    description: status of the request
- *                  data:
- *                    type: object
- *                    description: data returned
- *                  message:
- *                    type: string
- *                    description: response message
+ *         $ref: '#/components/schema/user'
  *       400:
  *         description: Invalid request body
  */
@@ -66,29 +52,18 @@ router.post('/signup', signUpUser);
  *             properties:
  *               email:
  *                 type: string
+ *                 example: okweiwei@hotmail.com
+ *                 description: email address
  *               password:
  *                 type: string
+ *                 example: 123!@#qweQWE
+ *                 description: user password
  *     responses:
  *       200:
- *         description: User logged in successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                  success:
- *                    type: string
- *                    description: status of the request
- *                  data:
- *                    type: object
- *                    description: data returned
- *                  message:
- *                    type: string
- *                    description: response message
+ *         $ref: '#/components/schema/user'
  *       400:
  *         description: Invalid request body
  */
-
 router.post('/signin', signInUser);
 
 /**

@@ -37,6 +37,9 @@ export const loginUser = async (email: string, password: string) => {
   //mock data for exam
   user.role = ADMIN_ROLE;
   user.permission = ADMIN_ROLE.permission;
+  user.loginCount = user.loginCount + 1;
+  user.lastSession = new Date();
+  await user.save();
   return { token, user };
 };
 

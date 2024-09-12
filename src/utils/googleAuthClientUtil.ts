@@ -6,8 +6,9 @@ export async function getAuthenticatedClient(): Promise<OAuth2Client> {
     try {
       // Just for exam, dont use this in production
       const oAuth2Client = new OAuth2Client({
-        clientId: '',
-        clientSecret: '',
+        clientId:
+          '438464651125-i3veiab637kbh1jan0p9v8qg4jbkl2jr.apps.googleusercontent.com',
+        clientSecret: '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',
         redirectUri: config.googleCallBackUrl,
       });
 

@@ -2,6 +2,7 @@ import cors from 'cors';
 import { Request, Response, NextFunction } from 'express';
 import config from '../config/config';
 import { ResponseEnum, ResponseTypeBuilder } from '../utils/responseFormatter';
+import { all } from 'axios';
 
 // frontend address
 const allowedOrigins = config.corsUrl;
@@ -27,6 +28,7 @@ const corsMiddleware = (req: Request, res: Response, next: NextFunction) => {
       }
     },
     allowedHeaders: allowedHeaders,
+    allowedMethods: ['GET', 'POST', 'PUT', 'DELETE'],
     optionsSuccessStatus: 200,
   };
 

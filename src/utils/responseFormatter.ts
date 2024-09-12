@@ -108,6 +108,10 @@ export const ResponseEnum: { [key: string]: ResType } = {
     status: 406,
     msg: 'There is nothing to change.',
   },
+  GoogleUserCannotChangePasswordError: {
+    status: 407,
+    msg: 'You are Google users, you cannot change your password.',
+  },
   EmailResendSuccess: {
     status: 0,
     msg: 'Verification email sent successfully.',

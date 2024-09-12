@@ -12,7 +12,7 @@ const router = express.Router();
  * @swagger
  * /auth/google-auth:
  *   post:
- *     summary: Google auth
+ *     summary: This interface handles login or registration validation by using the code obtained from Google’s OAuth2 authentication.
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -29,9 +29,10 @@ const router = express.Router();
  *                 description: Anti CSRF token
  *             example:
  *               code: "4/0AY0e-g4zQkZ6cLJzK1Kw4Z9sJ1BpY2r1JWl4XQGpQj8XJ2G7cDgU2bR7Q9I1X6n2Z0O9A"
+ *               state: "some-random-string-in-session"
  *     responses:
  *       200:
- *         description: Google auth
+ *         $ref: '#/components/responses/SuccessResponse'
  */
 router.post('/google-auth', doGoogleAuth);
 
@@ -39,13 +40,28 @@ router.post('/google-auth', doGoogleAuth);
  * @swagger
  * /auth/get-google-auth-url:
  *   get:
- *     summary: Get Google auth URL
+ *     summary: This interface is used to obtain the authorization URL for Google OAuth2.
  *     tags: [Auth]
  *     responses:
  *       200:
- *         description: Google auth URL
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status: integer
+ *                 message: string
+ *                 data:
+ *                   url: string
+ *                   description: Google Authorized Link
+ *               example:
+ *                 status: 0
+ *                 message: "Success"
+ *                 data:
+ *                   url: "https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&response_type=code&client_id=1234567890-abcdefghijklmnopqrstuvwxyz.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fgoogle-auth"
+ *
  */
-router.get('/`get-google-auth-url`', getGoogleAuthUrl);
+router.get('/get-google-auth-url', getGoogleAuthUrl);
 
 /**
  * @swagger
@@ -62,12 +78,11 @@ router.get('/`get-google-auth-url`', getGoogleAuthUrl);
  *             properties:
  *               email:
  *                 type: string
+ *                 example: admin@ludan.online
  *                 description: Verification email
- *             example:
- *               code: "admin@ludan.online"
  *     responses:
  *       200:
- *         description: Resend verification email
+ *         $ref: '#/components/responses/SuccessResponse'
  *
  */
 router.post('/resend-email', resendVerificationEmail);
@@ -92,7 +107,7 @@ router.post('/resend-email', resendVerificationEmail);
  *               code: "4/0AY0e-g4zQkZ6cLJzK1Kw4Z9sJ1BpY2r1JWl4XQGpQj8XJ2G7cDgU2bR7Q9I1X6n2Z0O9A"
  *     responses:
  *       200:
- *         description: Verify email
+ *         $ref: '#/components/responses/SuccessResponse'
  */
 router.post('/verify-email', verifyEmail);
 
