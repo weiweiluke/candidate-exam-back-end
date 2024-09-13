@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import config from '../config/config';
 import User from '../models/User';
 import { findUserByEmail } from '../services/userService';
+import { ResponseEnum, ResponseTypeBuilder } from '../utils/responseFormatter';
 
 // declare module 'express-serve-static-core' {
 //   interface Request {
@@ -42,6 +43,10 @@ const authMiddleware = async (
     '/auth/get-google-auth-url',
     '/auth/verify-email',
   ];
+  const needEmailVerificationPaths = [
+    '/dashboard/users',
+    '/dashboard/statistics',
+  ];
   if (req.path.startsWith('/api-doc') || publicPaths.includes(req.path)) {
     return next();
   }
@@ -56,7 +61,24 @@ const authMiddleware = async (
     const decoded = jwt.verify(token, config.JWT_SECRET);
     const user = await findUserByEmail((decoded as User).email);
     if (!user) {
-      return res.status(401).json({ message: 'User not found' });
+      return res
+        .status(200)
+        .json(
+          ResponseTypeBuilder().ERROR(ResponseEnum.UserNotFoundError).build()
+        );
+    }
+    //check if email not verified
+    if (
+      !user.isEmailVerified &&
+      needEmailVerificationPaths.includes(req.path)
+    ) {
+      return res
+        .status(200)
+        .json(
+          ResponseTypeBuilder()
+            .ERROR(ResponseEnum.EmailNotVerifiedError)
+            .build()
+        );
     }
     req.user = user;
     next();
